@@ -1,6 +1,6 @@
 # NodeJS C++ addon
 
-1. Make sure that Python3 installed
+1. Make sure that [Python3](https://www.python.org/downloads) installed
 2. install dependencies with 
 
 ```SH

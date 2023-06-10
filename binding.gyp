@@ -3,7 +3,7 @@
     {
       "target_name": "addon",
       "sources": [ 
-        "./addon.cpp"
+        "./src/addon.cpp"
       ]
     }
   ]
