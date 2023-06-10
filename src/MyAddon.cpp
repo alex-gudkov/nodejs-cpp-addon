@@ -58,7 +58,7 @@ void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &args)
         v8::Number::New(isolate, 1),
     };
 
-    callback->Call(isolate->GetCurrentContext(), v8::Null(isolate), argc, argv);
+    v8::MaybeLocal<v8::Value> result = callback->Call(isolate->GetCurrentContext(), v8::Null(isolate), argc, argv);
 }
 
 void Initialize(v8::Local<v8::Object> exports)
