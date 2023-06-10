@@ -25,7 +25,9 @@ void Sum(const v8::FunctionCallbackInfo<v8::Value> &args)
         return;
     }
 
-    double value = args[0].As<v8::Number>()->Value() + args[1].As<v8::Number>()->Value();
+    double arg0 = args[0].As<v8::Number>()->Value();
+    double arg1 = args[1].As<v8::Number>()->Value();
+    double value = arg0 + arg1;
 
     args.GetReturnValue().Set(value);
 }
