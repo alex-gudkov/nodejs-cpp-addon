@@ -12,4 +12,4 @@ void Initialize(v8::Local<v8::Object> exports)
     NODE_SET_METHOD(exports, "getHello", GetHello);
 }
 
-NODE_MODULE(addon, Initialize);
+NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize)

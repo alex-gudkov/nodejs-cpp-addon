@@ -1,3 +1,3 @@
-const addon = require('../build/Release/addon');
+const myAddon = require('../build/Release/my_addon');
 
-console.log(addon.getHello());
+console.log(myAddon.getHello());

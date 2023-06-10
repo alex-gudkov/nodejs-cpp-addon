@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "addon",
+      "target_name": "my_addon",
       "sources": [ 
         "./src/addon.cpp"
       ]
