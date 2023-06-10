@@ -5,9 +5,9 @@
   "author": "alex-gudkov",
   "private": true,
   "license": "UNLICENSED",
-  "main": "./src/index.js",
+  "main": "./src/main.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./src/main.js",
     "build": "node-gyp configure && node-gyp build"
   },
   "dependencies": {
