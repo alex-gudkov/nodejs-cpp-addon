@@ -1,13 +1,13 @@
 # NodeJS C++ addon
 
 1. Make sure that [Python3](https://www.python.org/downloads) installed
-2. install dependencies with 
+2. install dependencies with
 
 ```SH
 $ npm install
 ```
 
-3. build the project with 
+3. build the addon with
 
 ```SH
 $ npm run build
