@@ -1,8 +1,8 @@
 const myAddon = require('../build/my-addon.node');
 
-console.log(myAddon.getHello());
+console.log(myAddon.getString());
 
-console.log(myAddon.sum(1, 2));
+console.log(myAddon.sumNumbers(1, 2));
 
 myAddon.runCallback((value) => {
   console.log(value);

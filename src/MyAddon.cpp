@@ -1,13 +1,15 @@
 #include <node.h>
 
-void GetHello(const v8::FunctionCallbackInfo<v8::Value> &args)
+void GetString(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
     v8::Isolate *isolate = args.GetIsolate();
 
-    args.GetReturnValue().Set(v8::String::NewFromUtf8(isolate, "Hello").ToLocalChecked());
+    v8::Local<v8::String> value = v8::String::NewFromUtf8(isolate, "String").ToLocalChecked();
+
+    args.GetReturnValue().Set(value);
 }
 
-void Sum(const v8::FunctionCallbackInfo<v8::Value> &args)
+void SumNumbers(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
     v8::Isolate *isolate = args.GetIsolate();
 
@@ -86,13 +88,15 @@ void GetArray(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
     v8::Isolate *isolate = args.GetIsolate();
 
-    uint32_t length = 5;
+    unsigned int length = 5;
 
     v8::Local<v8::Array> array = v8::Array::New(isolate, length);
 
-    for (uint32_t i = 0; i < length; ++i)
+    for (unsigned int i = 0; i < length; ++i)
     {
-        v8::Maybe<bool> result = array->Set(isolate->GetCurrentContext(), i, v8::Number::New(isolate, (i + 1) * 10));
+        v8::Local<v8::Number> value = v8::Number::New(isolate, i + 1);
+
+        v8::Maybe<bool> result = array->Set(isolate->GetCurrentContext(), i, value);
     }
 
     args.GetReturnValue().Set(array);
@@ -100,8 +104,8 @@ void GetArray(const v8::FunctionCallbackInfo<v8::Value> &args)
 
 void Initialize(v8::Local<v8::Object> exports)
 {
-    NODE_SET_METHOD(exports, "getHello", GetHello);
-    NODE_SET_METHOD(exports, "sum", Sum);
+    NODE_SET_METHOD(exports, "getString", GetString);
+    NODE_SET_METHOD(exports, "sumNumbers", SumNumbers);
     NODE_SET_METHOD(exports, "runCallback", RunCallback);
     NODE_SET_METHOD(exports, "getObject", GetObject);
     NODE_SET_METHOD(exports, "getArray", GetArray);
