@@ -4,9 +4,9 @@ void GetString(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
     v8::Isolate *isolate = argv.GetIsolate();
 
-    v8::Local<v8::String> value = v8::String::NewFromUtf8(isolate, "String").ToLocalChecked();
+    v8::Local<v8::String> string = v8::String::NewFromUtf8(isolate, "Hello world!").ToLocalChecked();
 
-    argv.GetReturnValue().Set(value);
+    argv.GetReturnValue().Set(string);
 }
 
 void SumNumbers(const v8::FunctionCallbackInfo<v8::Value> &argv)
@@ -29,9 +29,9 @@ void SumNumbers(const v8::FunctionCallbackInfo<v8::Value> &argv)
 
     double arg0 = argv[0].As<v8::Number>()->Value();
     double arg1 = argv[1].As<v8::Number>()->Value();
-    double value = arg0 + arg1;
+    double sum = arg0 + arg1;
 
-    argv.GetReturnValue().Set(value);
+    argv.GetReturnValue().Set(sum);
 }
 
 void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &argv)
@@ -54,11 +54,10 @@ void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &argv)
 
     v8::Local<v8::Function> callback = argv[0].As<v8::Function>();
 
-    const unsigned int callbackArgc = 1U;
+    const size_t callbackArgc = 1;
+    v8::Local<v8::Value> callbackArgv[callbackArgc];
 
-    v8::Local<v8::Value> callbackArgv[callbackArgc] = {
-        v8::Number::New(isolate, 1),
-    };
+    callbackArgv[0] = v8::Number::New(isolate, 12.34);
 
     v8::MaybeLocal<v8::Value> result = callback->Call(isolate->GetCurrentContext(), v8::Null(isolate), callbackArgc, callbackArgv);
 }
@@ -88,15 +87,14 @@ void GetArray(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
     v8::Isolate *isolate = argv.GetIsolate();
 
-    unsigned int length = 5;
-
+    const size_t length = 5;
     v8::Local<v8::Array> array = v8::Array::New(isolate, length);
 
-    for (unsigned int i = 0; i < length; ++i)
+    for (size_t i = 0; i < length; ++i)
     {
-        v8::Local<v8::Number> value = v8::Number::New(isolate, i + 1);
+        v8::Local<v8::Number> element = v8::Number::New(isolate, i + 1);
 
-        v8::Maybe<bool> result = array->Set(isolate->GetCurrentContext(), i, value);
+        v8::Maybe<bool> result = array->Set(isolate->GetCurrentContext(), i, element);
     }
 
     argv.GetReturnValue().Set(array);
