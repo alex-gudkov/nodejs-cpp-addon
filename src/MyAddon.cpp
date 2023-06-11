@@ -51,7 +51,7 @@ void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &args)
     }
 
     v8::Local<v8::Function> callback = args[0].As<v8::Function>();
-    
+
     const unsigned int argc = 1U;
 
     v8::Local<v8::Value> argv[argc] = {
@@ -61,11 +61,33 @@ void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &args)
     v8::MaybeLocal<v8::Value> result = callback->Call(isolate->GetCurrentContext(), v8::Null(isolate), argc, argv);
 }
 
+void GetObject(const v8::FunctionCallbackInfo<v8::Value> &args)
+{
+    v8::Isolate *isolate = args.GetIsolate();
+
+    v8::Local<v8::Object> object = v8::Object::New(isolate);
+
+    v8::Maybe<bool> result = object->Set(
+        isolate->GetCurrentContext(),
+        v8::String::NewFromUtf8(isolate, "x").ToLocalChecked(),
+        v8::Number::New(isolate, 1)
+    );
+
+    result = object->Set(
+        isolate->GetCurrentContext(),
+        v8::String::NewFromUtf8(isolate, "y").ToLocalChecked(),
+        v8::Number::New(isolate, 2)
+    );
+
+    args.GetReturnValue().Set(object);
+}
+
 void Initialize(v8::Local<v8::Object> exports)
 {
     NODE_SET_METHOD(exports, "getHello", GetHello);
     NODE_SET_METHOD(exports, "sum", Sum);
     NODE_SET_METHOD(exports, "runCallback", RunCallback);
+    NODE_SET_METHOD(exports, "getObject", GetObject);
 }
 
 NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize)
