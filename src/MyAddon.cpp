@@ -1,71 +1,71 @@
 #include <node.h>
 
-void GetString(const v8::FunctionCallbackInfo<v8::Value> &args)
+void GetString(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
-    v8::Isolate *isolate = args.GetIsolate();
+    v8::Isolate *isolate = argv.GetIsolate();
 
     v8::Local<v8::String> value = v8::String::NewFromUtf8(isolate, "String").ToLocalChecked();
 
-    args.GetReturnValue().Set(value);
+    argv.GetReturnValue().Set(value);
 }
 
-void SumNumbers(const v8::FunctionCallbackInfo<v8::Value> &args)
+void SumNumbers(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
-    v8::Isolate *isolate = args.GetIsolate();
+    v8::Isolate *isolate = argv.GetIsolate();
 
-    if (args.Length() != 2)
+    if (argv.Length() != 2)
     {
         isolate->ThrowException(v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "Wrong number of arguments").ToLocalChecked()));
 
         return;
     }
 
-    if (!args[0]->IsNumber() || !args[1]->IsNumber())
+    if (!argv[0]->IsNumber() || !argv[1]->IsNumber())
     {
         isolate->ThrowException(v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "Wrong arguments type").ToLocalChecked()));
 
         return;
     }
 
-    double arg0 = args[0].As<v8::Number>()->Value();
-    double arg1 = args[1].As<v8::Number>()->Value();
+    double arg0 = argv[0].As<v8::Number>()->Value();
+    double arg1 = argv[1].As<v8::Number>()->Value();
     double value = arg0 + arg1;
 
-    args.GetReturnValue().Set(value);
+    argv.GetReturnValue().Set(value);
 }
 
-void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &args)
+void RunCallback(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
-    v8::Isolate *isolate = args.GetIsolate();
+    v8::Isolate *isolate = argv.GetIsolate();
 
-    if (args.Length() != 1)
+    if (argv.Length() != 1)
     {
         isolate->ThrowException(v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "Wrong number of arguments").ToLocalChecked()));
 
         return;
     }
 
-    if (!args[0]->IsFunction())
+    if (!argv[0]->IsFunction())
     {
         isolate->ThrowException(v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "Wrong arguments type").ToLocalChecked()));
 
         return;
     }
 
-    v8::Local<v8::Function> callback = args[0].As<v8::Function>();
+    v8::Local<v8::Function> callback = argv[0].As<v8::Function>();
 
-    const unsigned int argc = 1U;
+    const unsigned int callbackArgc = 1U;
 
-    v8::Local<v8::Value> argv[argc] = {
+    v8::Local<v8::Value> callbackArgv[callbackArgc] = {
         v8::Number::New(isolate, 1),
     };
 
-    v8::MaybeLocal<v8::Value> result = callback->Call(isolate->GetCurrentContext(), v8::Null(isolate), argc, argv);
+    v8::MaybeLocal<v8::Value> result = callback->Call(isolate->GetCurrentContext(), v8::Null(isolate), callbackArgc, callbackArgv);
 }
 
-void GetObject(const v8::FunctionCallbackInfo<v8::Value> &args)
+void GetObject(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
-    v8::Isolate *isolate = args.GetIsolate();
+    v8::Isolate *isolate = argv.GetIsolate();
 
     v8::Local<v8::Object> object = v8::Object::New(isolate);
 
@@ -81,12 +81,12 @@ void GetObject(const v8::FunctionCallbackInfo<v8::Value> &args)
         v8::Number::New(isolate, 2)
     );
 
-    args.GetReturnValue().Set(object);
+    argv.GetReturnValue().Set(object);
 }
 
-void GetArray(const v8::FunctionCallbackInfo<v8::Value> &args)
+void GetArray(const v8::FunctionCallbackInfo<v8::Value> &argv)
 {
-    v8::Isolate *isolate = args.GetIsolate();
+    v8::Isolate *isolate = argv.GetIsolate();
 
     unsigned int length = 5;
 
@@ -99,7 +99,7 @@ void GetArray(const v8::FunctionCallbackInfo<v8::Value> &args)
         v8::Maybe<bool> result = array->Set(isolate->GetCurrentContext(), i, value);
     }
 
-    args.GetReturnValue().Set(array);
+    argv.GetReturnValue().Set(array);
 }
 
 void Initialize(v8::Local<v8::Object> exports)
