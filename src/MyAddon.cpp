@@ -82,12 +82,29 @@ void GetObject(const v8::FunctionCallbackInfo<v8::Value> &args)
     args.GetReturnValue().Set(object);
 }
 
+void GetArray(const v8::FunctionCallbackInfo<v8::Value> &args)
+{
+    v8::Isolate *isolate = args.GetIsolate();
+
+    uint32_t length = 5;
+
+    v8::Local<v8::Array> array = v8::Array::New(isolate, length);
+
+    for (uint32_t i = 0; i < length; ++i)
+    {
+        v8::Maybe<bool> result = array->Set(isolate->GetCurrentContext(), i, v8::Number::New(isolate, (i + 1) * 10));
+    }
+
+    args.GetReturnValue().Set(array);
+}
+
 void Initialize(v8::Local<v8::Object> exports)
 {
     NODE_SET_METHOD(exports, "getHello", GetHello);
     NODE_SET_METHOD(exports, "sum", Sum);
     NODE_SET_METHOD(exports, "runCallback", RunCallback);
     NODE_SET_METHOD(exports, "getObject", GetObject);
+    NODE_SET_METHOD(exports, "getArray", GetArray);
 }
 
 NODE_MODULE(NODE_GYP_MODULE_NAME, Initialize)
